@@ -1508,3 +1508,8 @@ body.dark .project-card {
       0 0 50px rgba(56, 189, 248, 0.1);
     border-color: #38bdf8;
   }
+  /* ── VISITOR COUNTER ── */
+.footer-visitors img {
+    height: 20px;
+    border-radius: 4px;
+  }

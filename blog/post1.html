@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How I Cut LLM Latency by 42% at MetLife — Sravan Pusuluri</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .blog-page { max-width: 720px; margin: 0 auto; padding: 8rem 5% 4rem; }
+    .blog-back { font-size: 13px; color: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 2rem; }
+    .blog-back:hover { opacity: 0.8; }
+    .blog-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .blog-date { font-size: 12px; color: #aaa; }
+    .blog-readtime { font-size: 12px; color: #aaa; }
+    .blog-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: #111; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+    .blog-subtitle { font-size: 1.1rem; color: #666; line-height: 1.7; margin-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 2rem; }
+    .blog-body h2 { font-size: 1.4rem; font-weight: 700; color: #111; margin: 2.5rem 0 1rem; letter-spacing: -0.02em; }
+    .blog-body p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 1.25rem; }
+    .blog-body strong { color: #111; font-weight: 600; }
+    .blog-body code { font-family: monospace; background: #f5f5f7; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #0284c7; }
+    .callout { background: #f0f9ff; border-left: 3px solid #0284c7; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .callout p { margin: 0; color: #0369a1; font-size: 14px; }
+    .metric-row { display: flex; gap: 2rem; margin: 2rem 0; flex-wrap: wrap; }
+    .metric { text-align: center; }
+    .metric-num { font-size: 2rem; font-weight: 700; color: #0284c7; letter-spacing: -0.03em; }
+    .metric-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+    .tag-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-purple { background: #ede9fe; color: #7c3aed; }
+    body.dark .blog-title { color: #fff; }
+    body.dark .blog-body h2 { color: #fff; }
+    body.dark .blog-body p { color: #aaa; }
+    body.dark .blog-body strong { color: #fff; }
+    body.dark .callout { background: #1f1f35; border-color: #38bdf8; }
+    body.dark .callout p { color: #38bdf8; }
+    body.dark .blog-subtitle { color: #aaa; border-color: #2a2a45; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Sravan Pusuluri</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="theme-slider" onclick="toggleTheme()" id="themeBtn">
+        <div class="theme-slider-thumb"><span class="theme-icon">🌙</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="blog-page">
+    <a href="../index.html#blog" class="blog-back">← Back to Blog</a>
+
+    <div class="blog-meta">
+      <span class="tag-pill tag-blue">LLM</span>
+      <span class="tag-pill tag-green">MLOps</span>
+      <span class="tag-pill tag-purple">GPU</span>
+      <span class="blog-date">March 2025</span>
+      <span class="blog-readtime">8 min read</span>
+    </div>
+
+    <h1 class="blog-title">How I Cut LLM Latency by 42% at MetLife — A Production Deep Dive</h1>
+    <p class="blog-subtitle">When your p95 response time is killing user experience and your GPU bill is spiraling, you don't have the luxury of experimenting. Here's exactly what I did, what failed first, and what finally worked.</p>
+
+    <div class="blog-body">
+
+      <h2>The problem nobody warned me about</h2>
+      <p>When I joined MetLife's AI team, the LLM inference stack was already in production. It was serving real users, real queries, real time. And it was <strong>slow</strong>. Not unusably slow — but the kind of slow that quietly kills adoption. Our p95 latency was sitting at roughly 2.8 seconds. For a conversational AI interface, that's an eternity.</p>
+      <p>The first thing I did was not write code. I sat with the logs for three days. I watched where time was being spent. What I found surprised me — the model itself wasn't the bottleneck. The problem was how we were <strong>serving</strong> it.</p>
+
+      <div class="callout">
+        <p>"The model isn't slow. The way you're running it is slow." — what I told myself after day three of log analysis.</p>
+      </div>
+
+      <h2>What was actually going wrong</h2>
+      <p>We were running a 3B-parameter model on NVIDIA A100s using vanilla PyTorch inference. No batching strategy. No KV-cache optimization. Every request was treated as a standalone inference job. On paper, the model was fast. In practice, we were leaving 70% of our GPU compute on the floor.</p>
+      <p>The specific issues I identified were: <strong>no continuous batching</strong> (requests waited in queue instead of being grouped), <strong>memory fragmentation</strong> from inefficient KV-cache allocation, and <strong>no tensor parallelism</strong> across our 8-GPU nodes. Any one of these alone would hurt. All three together meant we were running a sports car with the handbrake on.</p>
+
+      <h2>The fix: vLLM + TensorRT-LLM</h2>
+      <p>My first move was migrating to <code>vLLM</code>. If you haven't used it — it implements PagedAttention, which handles KV-cache like virtual memory in an OS. Instead of allocating a fixed block of memory per sequence, it allocates in pages, dramatically reducing fragmentation and wasted memory. The switch alone dropped our p95 by around 18%.</p>
+      <p>But I wasn't done. The next layer was <code>TensorRT-LLM</code> from NVIDIA. This required converting our fine-tuned model weights into an optimized TRT engine. The compilation step takes time — about 40 minutes the first run — but the runtime gains are significant. TensorRT fuses operations, eliminates redundant memory transfers, and generates CUDA kernels specifically tuned for our A100 hardware.</p>
+
+      <div class="metric-row">
+        <div class="metric"><div class="metric-num">42%</div><div class="metric-label">p95 latency reduction</div></div>
+        <div class="metric"><div class="metric-num">35%</div><div class="metric-label">GPU memory saved</div></div>
+        <div class="metric"><div class="metric-num">83%</div><div class="metric-label">GPU utilization</div></div>
+      </div>
+
+      <h2>INT8 quantization — the scary part</h2>
+      <p>This is where most people get nervous, and honestly I was too. Quantizing a model from FP16 to INT8 means trading some numerical precision for speed and memory. In a regulated finance environment, "trading precision" sounds like a compliance nightmare.</p>
+      <p>We used <strong>GPTQ quantization</strong> with careful calibration data. The key insight: we didn't quantize blindly. We ran an extensive evaluation suite — the same one used to validate the model for production — and compared outputs across 10,000 query samples. The degradation was statistically negligible. Output consistency held across all 3B-parameter model variants. We got sign-off from the model risk team.</p>
+      <p>The result: <strong>35% reduction in GPU memory footprint</strong>, which meant we could run 2x the model concurrency on the same hardware. That deferred an estimated $500K in GPU procurement for the year.</p>
+
+      <h2>Dynamic batching with Triton Inference Server</h2>
+      <p>The final piece was deploying behind NVIDIA's Triton Inference Server with dynamic batching enabled. This groups incoming requests within a configurable time window and processes them together. Before, GPU utilization hovered around 58% under peak load. After enabling dynamic batching with a 50ms window: <strong>83% utilization</strong>. Effectively extracting the compute value of 3 additional A100s from existing hardware.</p>
+
+      <h2>What I'd do differently</h2>
+      <p>Start with profiling, not optimization. I spent too long on intuition-based fixes in the first week before I brought in <code>Nsight Systems</code> to actually see where compute time was going. Once I had real data, every decision became obvious. The 42% latency win didn't come from one clever trick — it came from systematically eliminating every inefficiency the profiler revealed.</p>
+      <p>If you're working on LLM inference at scale, the stack matters as much as the model. <strong>PagedAttention + TRT-LLM + dynamic batching</strong> is a combination I'd reach for again on day one.</p>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('.theme-icon');
+      icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      document.querySelector('.theme-icon').textContent = '☀️';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sravan Pusuluri — Generative AI Engineer</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  </head>
+  <body>
+
+    <!-- NAVIGATION -->
+    <nav>
+      <div class="nav-logo">Sravan Pusuluri</div>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#certifications">Certifications</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="theme-slider" onclick="toggleTheme()" id="themeBtn">
+          <div class="theme-slider-thumb">
+            <span class="theme-icon">🌙</span>
+          </div>
+        </div>
+        <a href="GenAI_Sravan_Pusuluri_Resume.pdf" download class="btn-primary nav-resume">Download Resume</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-wrapper">
+
+        <!-- FACE CARD -->
+        <div class="face-card">
+          <div class="face-img-wrap">
+            <img src="profile.jpeg" alt="Sravan Pusuluri" class="face-img" />
+          </div>
+          <div class="face-card-info">
+            <div class="face-name">Sravan Pusuluri</div>
+            <div class="face-title">Generative AI Engineer</div>
+            <div class="face-links">
+              <a href="https://www.linkedin.com/in/sravan-pusuluri/" target="_blank" class="face-link">in</a>
+              <a href="https://github.com/sravanpusuluri" target="_blank" class="face-link">GH</a>
+              <a href="mailto:sravanpusuluri03@gmail.com" class="face-link face-link-icon">✉</a>
+              <a href="tel:5188880259" class="face-link face-link-icon">☏</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HERO CONTENT -->
+        <div class="hero-container">
+          <div class="hero-badges">
+            <div class="hero-badge">Open to Remote</div>
+            <div class="hero-badge">Ready to Relocate</div>
+          </div>
+          <h1>
+            <span class="typing-line-1"></span>
+            <br>
+            <span class="typing-line-2-static">who makes AI </span><span class="typing-highlight"></span><span class="typing-cursor">|</span>
+          </h1>
+          <p class="hero-sub">
+            Building LLM inference pipelines, RAG architectures & agentic AI
+            systems at Fortune 50 scale. Based in New York, NY.
+          </p>
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-num">42%</div>
+              <div class="stat-label">Latency Reduced</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <div class="stat-num">35%</div>
+              <div class="stat-label">GPU Memory Saved</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <div class="stat-num">$620K+</div>
+              <div class="stat-label">Infrastructure Saved</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <div class="stat-num">4+</div>
+              <div class="stat-label">Years Experience</div>
+            </div>
+          </div>
+          <div class="hero-btns">
+            <a href="#experience" class="btn-primary">View My Work</a>
+            <a href="#contact" class="btn-ghost">Get In Touch</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-container">
+        <div class="section-label">About Me</div>
+        <h2>The engineer behind<br>the <span>numbers.</span></h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>I'm a <strong>Generative AI Engineer</strong> with 4+ years of experience
+            building LLM inference pipelines, RAG architectures, and agentic AI systems
+            at enterprise scale.</p>
+            <p>Currently at <strong>MetLife (Fortune 50)</strong>, I work on the full
+            stack of AI infrastructure — from quantization and GPU optimization to
+            multi-agent orchestration and observability.</p>
+            <p>My work spans regulated industries including <strong>finance and
+            healthcare</strong>, where responsible AI and production-grade guardrails
+            aren't optional — they're required.</p>
+            <a href="#contact" class="btn-primary" style="margin-top: 1rem; display: inline-block;">
+              Let's Connect
+            </a>
+          </div>
+          <div class="about-cards">
+            <div class="about-card location-clickable" onclick="toggleLocationBubble(event)">
+              <div class="about-card-icon">📍</div>
+              <div>
+                <div class="about-card-label">Location</div>
+                <div class="about-card-value">New York, NY · Open to Remote</div>
+              </div>
+              <div class="location-bubble" id="locationBubble">
+                <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" class="edu-bubble-svg">
+                  <path d="M40,10 Q30,10 30,20 L30,60 L10,80 L30,95 L30,110 Q30,120 40,120 L320,120 Q330,120 330,110 L330,20 Q330,10 320,10 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+                  <foreignObject x="40" y="16" width="280" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="edu-bubble-foreign">
+                      New York, NY — where the servers never sleep and neither do I. Open to Remote & Relocation! 🗽
+                    </div>
+                  </foreignObject>
+                </svg>
+              </div>
+            </div>
+            <div class="about-card role-clickable" onclick="toggleRoleBubble(event)">
+              <div class="about-card-icon">🏢</div>
+              <div>
+                <div class="about-card-label">Current Role</div>
+                <div class="about-card-value">Generative AI Engineer @ MetLife</div>
+              </div>
+              <div class="role-bubble" id="roleBubble">
+                <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" class="edu-bubble-svg">
+                  <path d="M40,10 Q30,10 30,20 L30,60 L10,80 L30,95 L30,110 Q30,120 40,120 L320,120 Q330,120 330,110 L330,20 Q330,10 320,10 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+                  <foreignObject x="40" y="16" width="280" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="edu-bubble-foreign">
+                      Officially: Generative AI Engineer. Unofficially: the person who stops the LLMs from hallucinating at 3am. 🤖
+                    </div>
+                  </foreignObject>
+                </svg>
+              </div>
+            </div>
+            <div class="about-card edu-clickable" onclick="toggleEduBubble(event)">
+              <div class="about-card-icon">🎓</div>
+              <div>
+                <div class="about-card-label">Education</div>
+                <div class="about-card-value">MS Data Analytics, SUNY Albany '25</div>
+              </div>
+              <div class="edu-bubble" id="eduBubble">
+                <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" class="edu-bubble-svg">
+                  <path d="M20,10 Q10,10 10,20 L10,110 Q10,120 20,120 L80,120 L60,148 L110,120 L320,120 Q330,120 330,110 L330,20 Q330,10 320,10 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+                  <foreignObject x="20" y="16" width="300" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="edu-bubble-foreign">
+                      🎓 SUNY Albany, Class of 2025. Spent more time optimizing LLMs than sleeping. My thesis advisor called it <i>'impressive'</i>. My mom called it <i>'concerning'</i>. 😄
+                    </div>
+                  </foreignObject>
+                </svg>
+              </div>
+            </div>
+            <div class="about-card email-clickable" onclick="copyEmail(event)">
+              <div class="about-card-icon">📧</div>
+              <div>
+                <div class="about-card-label">Email</div>
+                <div class="about-card-value">sravanpusuluri03@gmail.com</div>
+              </div>
+              <div class="email-bubble" id="emailBubble">
+                <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" class="edu-bubble-svg">
+                  <path d="M40,10 Q30,10 30,20 L30,60 L10,80 L30,95 L30,110 Q30,120 40,120 L320,120 Q330,120 330,110 L330,20 Q330,10 320,10 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+                  <foreignObject x="40" y="16" width="280" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="edu-bubble-foreign">
+                      📧 Copied! Now stop ghosting me 👻 I check this more than my model metrics.
+                    </div>
+                  </foreignObject>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+<section id="skills">
+    <div class="section-container">
+      <div class="section-label">Technical Skills</div>
+      <h2>Everything I work with,<br>end to <span>end.</span></h2>
+      <div class="skills-grid">
+  
+        <div class="skill-card">
+          <div class="skill-card-title">GenAI & LLMs</div>
+          <div class="skill-tags">
+            <span class="tag"><img src="icons/langchain.svg" class="tag-icon">LangChain</span>
+            <span class="tag"><img src="icons/llamaindex-icon.svg" class="tag-icon">LlamaIndex</span>
+            <span class="tag"><i class="devicon-amazonwebservices-plain colored"></i>Bedrock</span>
+            <span class="tag">vLLM</span>
+            <span class="tag">TensorRT-LLM</span>
+            <span class="tag">Llama 3</span>
+            <span class="tag">Mistral</span>
+            <span class="tag">RAG</span>
+            <span class="tag">LoRA/QLoRA</span>
+            <span class="tag">RLHF</span>
+          </div>
+        </div>
+  
+        <div class="skill-card">
+          <div class="skill-card-title">Agentic AI</div>
+          <div class="skill-tags">
+            <span class="tag"><img src="icons/langgraph.svg" class="tag-icon">LangGraph</span>
+            <span class="tag"><img src="icons/langsmith.svg" class="tag-icon">LangSmith</span>
+            <span class="tag">AutoGen</span>
+            <span class="tag">ReAct</span>
+            <span class="tag">ReWoo</span>
+            <span class="tag">Multi-Agent</span>
+            <span class="tag">AI Guardrails</span>
+            <span class="tag">Responsible AI</span>
+          </div>
+        </div>
+  
+        <div class="skill-card">
+          <div class="skill-card-title">Vector & Search</div>
+          <div class="skill-tags">
+            <span class="tag"><img src="icons/pinecone-icon.svg" class="tag-icon">Pinecone</span>
+            <span class="tag"><i class="devicon-postgresql-plain colored"></i>pgvector</span>
+            <span class="tag">ChromaDB</span>
+            <span class="tag">Weaviate</span>
+            <span class="tag">OpenSearch</span>
+            <span class="tag">Semantic Search</span>
+            <span class="tag">Hybrid Search</span>
+          </div>
+        </div>
+  
+        <div class="skill-card">
+          <div class="skill-card-title">GPU & Performance</div>
+          <div class="skill-tags">
+            <span class="tag"><i class="devicon-nvidia-plain colored"></i>CUDA</span>
+            <span class="tag">NCCL</span>
+            <span class="tag">Nsight Systems</span>
+            <span class="tag">INT8 Quant</span>
+            <span class="tag">KV-Cache</span>
+            <span class="tag">Dynamic Batching</span>
+            <span class="tag">DeepSpeed MII</span>
+            <span class="tag">A100/H100</span>
+          </div>
+        </div>
+  
+        <div class="skill-card">
+          <div class="skill-card-title">MLOps & Cloud</div>
+          <div class="skill-tags">
+            <span class="tag"><i class="devicon-docker-plain colored"></i>Docker</span>
+            <span class="tag"><i class="devicon-kubernetes-plain colored"></i>K8s</span>
+            <span class="tag"><i class="devicon-amazonwebservices-plain colored"></i>SageMaker</span>
+            <span class="tag"><i class="devicon-github-original colored"></i>Actions</span>
+            <span class="tag"><i class="devicon-apacheairflow-plain colored"></i>Airflow</span>
+            <span class="tag"><i class="devicon-fastapi-plain colored"></i>FastAPI</span>
+            <span class="tag">MLflow</span>
+            <span class="tag"><img src="icons/prometheus.svg" class="tag-icon">Prometheus</span>
+            <span class="tag"><img src="icons/aws-cloudwatch.svg" class="tag-icon">CloudWatch</span>
+          </div>
+        </div>
+  
+        <div class="skill-card">
+          <div class="skill-card-title">Languages & ML</div>
+          <div class="skill-tags">
+            <span class="tag"><i class="devicon-python-plain colored"></i>Python</span>
+            <span class="tag"><i class="devicon-pytorch-plain colored"></i>PyTorch</span>
+            <span class="tag"><i class="devicon-tensorflow-original colored"></i>TensorFlow</span>
+            <span class="tag"><img src="icons/hugging-face-icon.svg" class="tag-icon">Hugging Face</span>
+            <span class="tag"><i class="devicon-postgresql-plain colored"></i>SQL</span>
+            <span class="tag"><i class="devicon-scala-plain colored"></i>Scala</span>
+            <span class="tag"><i class="devicon-apachespark-plain colored"></i>Spark</span>
+            <span class="tag">XGBoost</span>
+            <span class="tag">spaCy</span>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-container">
+        <div class="section-label">Experience</div>
+        <h2>Where I've built<br>real <span>impact.</span></h2>
+        <div class="exp-list">
+
+          <div class="exp-item">
+            <div class="exp-left">
+              <img src="Metlife_logo.png" alt="MetLife" class="exp-side-logo" />
+              <div class="exp-dot"></div>
+              <div class="exp-line"></div>
+            </div>
+            <div class="exp-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-company">MetLife · Fortune 50</div>
+                  <div class="exp-role">Generative AI Engineer — LLM Optimization & Inference</div>
+                  <div class="exp-meta">Sep 2024 – Present · New York, NY</div>
+                </div>
+                <div class="exp-badge">Current</div>
+              </div>
+              <ul class="exp-points">
+                <li>Optimized LLM inference stack using vLLM and TensorRT-LLM, cutting <strong>p95 response latency by 42%</strong> while preserving output consistency across 3B-parameter model variants in production.</li>
+                <li>Deployed quantized <strong>INT8 GPTQ pipelines</strong> with KV-cache streaming and head pruning, reducing GPU memory footprint by <strong>35% on NVIDIA A100 clusters</strong> — enabling 2× model concurrency and deferring an estimated <strong>$500K</strong> in GPU hardware procurement.</li>
+                <li>Integrated <strong>DeepSpeed MII</strong> for multi-GPU orchestration via NCCL and CUDA Graphs, achieving near-linear scalability across 8-GPU nodes.</li>
+                <li>Engineered dynamic batching in <strong>Triton Inference Server</strong>, increasing GPU utilization from ~58% to <strong>83%</strong> — avoiding an estimated <strong>$120K+ in annual cloud GPU spend</strong>.</li>
+                <li>Converted fine-tuned models to <strong>ONNX Runtime</strong> for edge deployments, achieving <strong>1.7× token throughput</strong> vs. baseline PyTorch.</li>
+                <li>Architected <strong>RAG pipelines</strong> using LangChain and vector databases (Pinecone, ChromaDB) with measurable hallucination reduction.</li>
+                <li>Built production-grade inference monitoring with <strong>Prometheus + CloudWatch</strong>, enabling real-time latency alerting and automated horizontal scaling.</li>
+                <li>Automated CI/CD via <strong>Docker + GitHub Actions</strong>, compressing release cycles from weekly → daily and improving deployment reliability by <strong>50%</strong>.</li>
+                <li>Led GPU performance investigations using <strong>Nsight Systems</strong>, reducing inference variance by <strong>27%</strong>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-left">
+              <img src="Sage_Softtech_logo.jpeg" alt="Sage Softtech" class="exp-side-logo" />
+              <div class="exp-dot"></div>
+            </div>
+            <div class="exp-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-company">Sage Softtech</div>
+                  <div class="exp-role">Machine Learning Engineer</div>
+                  <div class="exp-meta">Mar 2021 – Jul 2023 · India</div>
+                </div>
+              </div>
+              <ul class="exp-points">
+                <li>Engineered production ML system on <strong>50M+ EHR records</strong> — patient readmission risk engine improving high-risk detection by <strong>18%</strong>.</li>
+                <li>Built clinical <strong>NLP pipeline using spaCy NER</strong>, boosting predictive AUC by <strong>0.09</strong>.</li>
+                <li>Compressed retraining cycles from 4 hours → <strong>45 minutes</strong> via <strong>Airflow-orchestrated pipelines</strong>.</li>
+                <li>Deployed production APIs (<strong>FastAPI + Docker on AWS EC2</strong>) serving <strong>200+ physicians daily</strong>.</li>
+                <li>Implemented <strong>MLflow + Prometheus</strong> for full model lifecycle governance and automated data drift detection.</li>
+                <li>Operated within a <strong>regulated healthcare environment</strong> — the same compliance mindset now applied at MetLife.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-container">
+        <div class="section-label">Projects</div>
+        <h2>Things I've built<br>that <span>actually work.</span></h2>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-num">01</div>
+            <div class="project-title">Enterprise RAG Chatbot with Agentic Workflows</div>
+            <div class="project-desc">Multi-agent conversational AI using LangGraph (ReAct) and Amazon Bedrock, grounded in a 100K+ document corpus via ChromaDB. Implemented AI Guardrails for PII redaction and hallucination mitigation.</div>
+            <div class="project-metrics">
+              <span class="project-metric">91% faithfulness</span>
+              <span class="project-metric">&lt;800ms p95</span>
+              <span class="project-metric">500+ concurrent</span>
+            </div>
+            <div class="project-tech">
+              <span class="tag blue">LangChain</span>
+              <span class="tag blue">LangGraph</span>
+              <span class="tag blue">Amazon Bedrock</span>
+              <span class="tag blue">ChromaDB</span>
+              <span class="tag blue">LangSmith</span>
+              <span class="tag blue">AWS Lambda</span>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="project-num">02</div>
+            <div class="project-title">Fraud Detection System — Real-Time Anomaly Scoring</div>
+            <div class="project-desc">Fraud detection pipeline on highly imbalanced financial transaction data using Isolation Forest and Autoencoder-based anomaly detection. Deployed as real-time scoring API on SageMaker.</div>
+            <div class="project-metrics">
+              <span class="project-metric">94% recall</span>
+              <span class="project-metric">Sub-second alerts</span>
+            </div>
+            <div class="project-tech">
+              <span class="tag cyan">Isolation Forest</span>
+              <span class="tag cyan">Autoencoders</span>
+              <span class="tag cyan">XGBoost</span>
+              <span class="tag cyan">SageMaker</span>
+              <span class="tag cyan">CloudWatch</span>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="project-num">03</div>
+            <div class="project-title">Multi-Model Time Series Demand Forecasting</div>
+            <div class="project-desc">Ensemble forecasting system comparing ARIMA, Prophet, and LSTM for supply chain demand. Enabled 30-day ahead forecasts with automated seasonality detection.</div>
+            <div class="project-metrics">
+              <span class="project-metric">12% lower MAPE</span>
+              <span class="project-metric">30-day horizon</span>
+            </div>
+            <div class="project-tech">
+              <span class="tag green">LSTM</span>
+              <span class="tag green">Prophet</span>
+              <span class="tag green">ARIMA</span>
+              <span class="tag green">Apache Airflow</span>
+              <span class="tag green">AWS</span>
+            </div>
+          </div>
+          <div class="project-card" onclick="window.location.href='projects/churn.html'" style="cursor:pointer;">
+            <div class="project-num">04</div>
+            <div class="project-title">Customer Churn Prediction</div>
+            <div class="project-desc">End-to-end machine learning pipeline to predict customer churn using classification models. Built with full data preprocessing, feature engineering, model training and evaluation pipeline.</div>
+            <div class="project-metrics">
+              <span class="project-metric">End-to-end ML pipeline</span>
+            </div>
+            <div class="project-tech">
+              <span class="tag orange">Python</span>
+              <span class="tag orange">Scikit-learn</span>
+              <span class="tag orange">Pandas</span>
+              <span class="tag orange">XGBoost</span>
+              <span class="tag orange">EDA</span>
+            </div>
+            <div class="project-github">Click to view project →</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+<section id="blog">
+    <div class="section-container">
+      <div class="section-label">Blog</div>
+      <h2>Thoughts on <span>AI & Engineering</span></h2>
+  
+      <div class="blog-layout">
+  
+        <!-- LEFT — card list -->
+        <div class="blog-card-list">
+          <div class="blog-card active" onclick="selectPost(0)">
+            <div class="blog-card-num">01</div>
+            <div class="blog-card-title">How I cut LLM latency by 42% at MetLife</div>
+            <div class="blog-card-tags">
+              <span class="tag blue">LLM</span>
+              <span class="tag green">MLOps</span>
+            </div>
+            <div class="blog-card-meta">March 2025 · 6 min read</div>
+          </div>
+          <div class="blog-card" onclick="selectPost(1)">
+            <div class="blog-card-num">02</div>
+            <div class="blog-card-title">RAG vs Fine-tuning: What I learned building enterprise AI</div>
+            <div class="blog-card-tags">
+              <span class="tag purple">RAG</span>
+              <span class="tag blue">LLM</span>
+            </div>
+            <div class="blog-card-meta">June 2025 · 8 min read</div>
+          </div>
+          <div class="blog-card" onclick="selectPost(2)">
+            <div class="blog-card-num">03</div>
+            <div class="blog-card-title">Why GPU memory optimization saved us $620K</div>
+            <div class="blog-card-tags">
+              <span class="tag green">GPU</span>
+              <span class="tag orange">Infra</span>
+            </div>
+            <div class="blog-card-meta">November 2025 · 5 min read</div>
+          </div>
+          <div class="blog-card" onclick="selectPost(3)">
+            <div class="blog-card-num">04</div>
+            <div class="blog-card-title">Agentic AI in production — lessons from multi-agent systems</div>
+            <div class="blog-card-tags">
+              <span class="tag purple">Agents</span>
+              <span class="tag blue">LangGraph</span>
+            </div>
+            <div class="blog-card-meta">February 2026 · 7 min read</div>
+          </div>
+        </div>
+  
+        <!-- RIGHT — info panel -->
+        <div class="blog-info-panel" id="blogPanel">
+          <div class="blog-info-badge">Featured post</div>
+          <div class="blog-info-title">How I cut LLM latency by 42% at MetLife — a production deep dive</div>
+          <div class="blog-info-date">March 2025 · 6 min read</div>
+          <div class="blog-info-desc">A behind-the-scenes look at optimizing vLLM, TensorRT-LLM and INT8 quantization pipelines on NVIDIA A100 clusters at Fortune 50 scale. Covers KV-cache streaming, dynamic batching, and how we deferred $500K in GPU spend.</div>
+          <div class="blog-info-tags">
+            <span class="tag blue">LLM</span>
+            <span class="tag green">MLOps</span>
+            <span class="tag purple">GPU</span>
+            <span class="tag orange">Production</span>
+          </div>
+          <div class="blog-info-divider"></div>
+          <div class="blog-info-stats">
+            <div><div class="blog-stat-num">42%</div><div class="blog-stat-label">Latency cut</div></div>
+            <div><div class="blog-stat-num">$500K</div><div class="blog-stat-label">GPU savings</div></div>
+            <div><div class="blog-stat-num">6 min</div><div class="blog-stat-label">Read time</div></div>
+          </div>
+          <a href="blog/post1.html" class="blog-read-btn" id="blogReadBtn">Read article →</a>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+      <div class="section-container">
+        <div class="section-label">Certifications</div>
+        <h2>Credentials that prove<br>the <span>expertise.</span></h2>
+        <div class="cert-grid-2x2">
+          <div class="cert-card">
+            <div class="cert-top aws">
+              <div class="cert-issuer">Amazon Web Services</div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" class="cert-logo-img" />
+            </div>
+            <div class="cert-body">
+              <div class="cert-status in-progress">In Progress</div>
+              <div class="cert-name">AWS Certified Machine Learning Engineer – Associate</div>
+              <div class="cert-code">MLA-C01</div>
+            </div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-top aws">
+              <div class="cert-issuer">Amazon Web Services</div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" class="cert-logo-img" />
+            </div>
+            <div class="cert-body">
+              <div class="cert-status completed">Completed</div>
+              <div class="cert-name">AWS Certified AI Practitioner</div>
+              <div class="cert-code">AIF-C01</div>
+            </div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-top nvidia">
+              <div class="cert-issuer">NVIDIA Academy</div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="NVIDIA" class="cert-logo-img nvidia-logo" />
+            </div>
+            <div class="cert-body">
+              <div class="cert-status completed">In Progress</div>
+              <div class="cert-name">Deep Learning Institute – Accelerating LLM Inference</div>
+              <div class="cert-code">NVIDIA DLI</div>
+            </div>
+          </div>
+          <div class="cert-card cert-clickable" onclick="openCert()">
+            <div class="cert-top nvidia">
+              <div class="cert-issuer">NVIDIA Academy</div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="NVIDIA" class="cert-logo-img nvidia-logo" />
+            </div>
+            <div class="cert-body">
+              <div class="cert-status completed">Completed</div>
+              <div class="cert-name">AI for All: From Basics to GenAI Practice</div>
+              <div class="cert-code">Sep 2025</div>
+              <div class="cert-view-hint">Click to view certificate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BULB ANIMATION -->
+     <div class="bulb-wrap" id="bulbWrap">
+        <div class="bulb-wire" id="bulbWire"></div>
+        <svg class="bulb-svg" id="bulbSvg" width="48" height="72" viewBox="0 0 48 72" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+        <radialGradient id="bulbGrad" cx="50%" cy="60%" r="55%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="60%" stop-color="#e0e0e0"/>
+          <stop offset="100%" stop-color="#aaaaaa"/>
+        </radialGradient>
+      </defs>
+      <rect x="19" y="2" width="10" height="4" rx="1" fill="#666"/>
+      <rect x="18" y="6" width="12" height="3" rx="1" fill="#777"/>
+      <rect x="17" y="9" width="14" height="4" rx="2" fill="#888"/>
+      <rect x="19" y="13" width="10" height="6" rx="2" fill="#555"/>
+      <ellipse cx="24" cy="46" rx="18" ry="22" fill="#2a2a2a" id="bulbGlass"/>
+      <path d="M20 26 Q18 34 20 42 Q22 46 24 44 Q26 46 28 42 Q30 34 28 26" stroke="#555" stroke-width="1.5" fill="none" id="bulbFilament"/>
+    </svg>
+  </div>
+
+    <!-- CERTIFICATE MODAL -->
+    <div class="cert-modal" id="certModal" onclick="closeCert()">
+      <div class="cert-modal-box" onclick="event.stopPropagation()">
+        <button class="cert-modal-close" onclick="closeCert()">✕</button>
+        <img src="Nvidia_AI_for_All.png" alt="NVIDIA Certificate" />
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-container">
+        <div class="section-label">Contact</div>
+        <h2>Let's build something<br><span>great together.</span></h2>
+        <p class="contact-sub">
+          Open to senior Generative AI / MLOps roles.
+          Feel free to reach out via any channel below.
+        </p>
+        <div class="contact-grid">
+          <a href="mailto:sravanpusuluri03@gmail.com" class="contact-card">
+            <div class="contact-icon">✉</div>
+            <div class="contact-card-label">Email</div>
+            <div class="contact-card-value">sravanpusuluri03@gmail.com</div>
+          </a>
+          <a href="https://www.linkedin.com/in/sravan-pusuluri/" target="_blank" class="contact-card">
+            <div class="contact-icon">in</div>
+            <div class="contact-card-label">LinkedIn</div>
+            <div class="contact-card-value">linkedin.com/in/sravan-pusuluri</div>
+          </a>
+          <a href="https://github.com/sravanpusuluri" target="_blank" class="contact-card">
+            <div class="contact-icon">GH</div>
+            <div class="contact-card-label">GitHub</div>
+            <div class="contact-card-value">github.com/sravanpusuluri</div>
+          </a>
+          <a href="tel:5188880259" class="contact-card">
+            <div class="contact-icon">☏</div>
+            <div class="contact-card-label">Phone</div>
+            <div class="contact-card-value">(518) 888-0259</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-name">Sravan Pusuluri</div>
+        <div class="footer-copy">Real-time inference. Real-time regrets. Zero hallucinations.</div>
+      </div>
+    </footer>
+
+    <script>
+      function openCert() {
+        document.getElementById('certModal').classList.add('active');
+      }
+      function closeCert() {
+        document.getElementById('certModal').classList.remove('active');
+      }
+
+      function toggleEduBubble(e) {
+        e.stopPropagation();
+        closeAllBubbles('eduBubble');
+        document.getElementById('eduBubble').classList.toggle('active');
+      }
+
+      function toggleLocationBubble(e) {
+        e.stopPropagation();
+        closeAllBubbles('locationBubble');
+        document.getElementById('locationBubble').classList.toggle('active');
+      }
+
+      function toggleRoleBubble(e) {
+        e.stopPropagation();
+        closeAllBubbles('roleBubble');
+        document.getElementById('roleBubble').classList.toggle('active');
+      }
+
+      function copyEmail(e) {
+        e.stopPropagation();
+        navigator.clipboard.writeText('sravanpusuluri03@gmail.com');
+        closeAllBubbles('emailBubble');
+        document.getElementById('emailBubble').classList.add('active');
+        setTimeout(() => {
+          document.getElementById('emailBubble').classList.remove('active');
+        }, 3000);
+      }
+
+      function closeAllBubbles(except) {
+        ['eduBubble', 'locationBubble', 'roleBubble', 'emailBubble'].forEach(id => {
+          if (id !== except) {
+            document.getElementById(id).classList.remove('active');
+          }
+        });
+      }
+
+      document.addEventListener('click', function() {
+        closeAllBubbles(null);
+      });
+
+      function toggleTheme() {
+        document.body.classList.toggle('dark');
+        const icon = document.querySelector('.theme-icon');
+        icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+      }
+
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+        document.querySelector('.theme-icon').textContent = '☀️';
+      }
+
+      const line1Text = "Generative AI Engineer";
+      const line2Text = "actually ship.";
+      let i = 0;
+      let j = 0;
+      let phase = 1;
+
+      function type() {
+        const el1 = document.querySelector('.typing-line-1');
+        const el2 = document.querySelector('.typing-highlight');
+        const cursor = document.querySelector('.typing-cursor');
+        if (phase === 1) {
+          if (i < line1Text.length) {
+            el1.textContent += line1Text.charAt(i);
+            i++;
+            setTimeout(type, 60);
+          } else {
+            phase = 2;
+            setTimeout(type, 200);
+          }
+        } else if (phase === 2) {
+          if (j < line2Text.length) {
+            el2.textContent += line2Text.charAt(j);
+            j++;
+            setTimeout(type, 80);
+          } else {
+            cursor.style.display = 'none';
+          }
+        }
+      }
+
+      window.addEventListener('load', function() {
+        setTimeout(type, 500);
+      });
+
+      const blogPosts = [
+  {
+    badge: 'Featured post',
+    title: 'How I cut LLM latency by 42% at MetLife — a production deep dive',
+    date: 'March 2025 · 6 min read',
+    desc: 'A behind-the-scenes look at optimizing vLLM, TensorRT-LLM and INT8 quantization pipelines on NVIDIA A100 clusters at Fortune 50 scale. Covers KV-cache streaming, dynamic batching, and how we deferred $500K in GPU spend.',
+    tags: [['LLM','blue'],['MLOps','green'],['GPU','green'],['Production','orange']],
+    stats: [['42%','Latency cut'],['$500K','GPU savings'],['6 min','Read time']],
+    link: 'blog/post1.html'
+  },
+  {
+    badge: 'Deep dive',
+    title: 'RAG vs Fine-tuning: What I learned building enterprise AI systems',
+    date: 'June 2025 · 8 min read',
+    desc: 'When should you use RAG? When should you fine-tune? After building both at scale, here are the patterns, trade-offs and decision frameworks I use in production today.',
+    tags: [['RAG','purple'],['LLM','blue'],['LangChain','blue'],['Enterprise','green']],
+    stats: [['100K+','Doc corpus'],['91%','Faithfulness'],['8 min','Read time']],
+    link: 'blog/post2.html'
+  },
+  {
+    badge: 'Engineering',
+    title: 'Why GPU memory optimization saved us $620K in infrastructure costs',
+    date: 'November 2026 · 5 min read',
+    desc: 'Head pruning, KV-cache streaming and INT8 GPTQ pipelines reduced our A100 GPU memory footprint by 35%, enabling 2x model concurrency at the same hardware cost.',
+    tags: [['GPU','green'],['Infra','orange'],['CUDA','blue'],['A100','purple']],
+    stats: [['35%','Memory saved'],['$620K','Cost saved'],['5 min','Read time']],
+    link: 'blog/post3.html'
+  },
+  {
+    badge: 'Lessons learned',
+    title: 'Agentic AI in production — lessons from building multi-agent systems',
+    date: 'February 2026 · 7 min read',
+    desc: 'Building a multi-agent RAG system with LangGraph taught me more about production AI than any paper. Here are the patterns that worked and the ones that blew up in prod.',
+    tags: [['Agents','purple'],['LangGraph','blue'],['ReAct','purple'],['Production','orange']],
+    stats: [['500+','Concurrent req'],['<800ms','p95 latency'],['7 min','Read time']],
+    link: 'blog/post4.html'
+  }
+];
+
+function selectPost(idx) {
+  document.querySelectorAll('.blog-card').forEach((c,i) => {
+    c.classList.toggle('active', i === idx);
+  });
+  const p = blogPosts[idx];
+  const panel = document.getElementById('blogPanel');
+  panel.querySelector('.blog-info-badge').textContent = p.badge;
+  panel.querySelector('.blog-info-title').textContent = p.title;
+  panel.querySelector('.blog-info-date').textContent = p.date;
+  panel.querySelector('.blog-info-desc').textContent = p.desc;
+  panel.querySelector('.blog-info-tags').innerHTML = p.tags.map(t =>
+    `<span class="tag ${t[1]}">${t[0]}</span>`).join('');
+  panel.querySelector('.blog-info-stats').innerHTML = p.stats.map(s =>
+    `<div><div class="blog-stat-num">${s[0]}</div><div class="blog-stat-label">${s[1]}</div></div>`).join('');
+  document.getElementById('blogReadBtn').href = p.link;
+}
+function toggleTheme() {
+    document.body.classList.toggle('dark');
+    const icon = document.querySelector('.theme-icon');
+    const isDark = document.body.classList.contains('dark');
+    icon.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  
+    const wrap = document.getElementById('bulbWrap');
+    const svg = document.getElementById('bulbSvg');
+    const glass = document.getElementById('bulbGlass');
+    const filament = document.getElementById('bulbFilament');
+  
+    if (isDark) {
+      wrap.classList.remove('rising', 'swaying');
+      wrap.classList.add('dropping');
+      setTimeout(() => {
+        wrap.classList.remove('dropping');
+        wrap.classList.add('swaying');
+        svg.classList.add('glowing');
+        glass.setAttribute('fill', 'url(#bulbGrad)');
+        filament.setAttribute('stroke', '#ffffff');
+      }, 1400);
+    } else {
+      wrap.classList.remove('swaying', 'dropping');
+      wrap.classList.add('rising');
+      svg.classList.remove('glowing');
+      glass.setAttribute('fill', '#2a2a2a');
+      filament.setAttribute('stroke', '#555');
+      setTimeout(() => {
+        wrap.classList.remove('rising');
+        wrap.style.transform = 'translateY(-400px)';
+      }, 600);
+    }
+  }
+    </script>
+  </body>
+</html>

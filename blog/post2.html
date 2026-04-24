@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAG vs Fine-Tuning — Sravan Pusuluri</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .blog-page { max-width: 720px; margin: 0 auto; padding: 8rem 5% 4rem; }
+    .blog-back { font-size: 13px; color: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 2rem; }
+    .blog-back:hover { opacity: 0.8; }
+    .blog-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .blog-date { font-size: 12px; color: #aaa; }
+    .blog-readtime { font-size: 12px; color: #aaa; }
+    .blog-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: #111; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+    .blog-subtitle { font-size: 1.1rem; color: #666; line-height: 1.7; margin-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 2rem; }
+    .blog-body h2 { font-size: 1.4rem; font-weight: 700; color: #111; margin: 2.5rem 0 1rem; letter-spacing: -0.02em; }
+    .blog-body p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 1.25rem; }
+    .blog-body strong { color: #111; font-weight: 600; }
+    .blog-body code { font-family: monospace; background: #f5f5f7; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #0284c7; }
+    .callout { background: #f0f9ff; border-left: 3px solid #0284c7; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .callout p { margin: 0; color: #0369a1; font-size: 14px; }
+    .comparison-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 13px; }
+    .comparison-table th { background: #f0f9ff; color: #0369a1; padding: 10px 14px; text-align: left; font-weight: 600; border-bottom: 2px solid #e0f2fe; }
+    .comparison-table td { padding: 10px 14px; border-bottom: 1px solid #f5f5f5; color: #444; }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .tag-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-purple { background: #ede9fe; color: #7c3aed; }
+    body.dark .blog-title { color: #fff; }
+    body.dark .blog-body h2 { color: #fff; }
+    body.dark .blog-body p { color: #aaa; }
+    body.dark .blog-body strong { color: #fff; }
+    body.dark .callout { background: #1f1f35; border-color: #38bdf8; }
+    body.dark .callout p { color: #38bdf8; }
+    body.dark .blog-subtitle { color: #aaa; border-color: #2a2a45; }
+    body.dark .comparison-table th { background: #252540; color: #38bdf8; border-color: #2a2a45; }
+    body.dark .comparison-table td { color: #aaa; border-color: #2a2a45; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Sravan Pusuluri</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="theme-slider" onclick="toggleTheme()" id="themeBtn">
+        <div class="theme-slider-thumb"><span class="theme-icon">🌙</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="blog-page">
+    <a href="../index.html#blog" class="blog-back">← Back to Blog</a>
+
+    <div class="blog-meta">
+      <span class="tag-pill tag-purple">RAG</span>
+      <span class="tag-pill tag-blue">LLM</span>
+      <span class="tag-pill tag-green">Enterprise</span>
+      <span class="blog-date">June 2025</span>
+      <span class="blog-readtime">8 min read</span>
+    </div>
+
+    <h1 class="blog-title">RAG vs Fine-Tuning: What I Learned Building Enterprise AI at Scale</h1>
+    <p class="blog-subtitle">I've built both in production. The "which one should I use?" question has a real answer — it just depends on things most blog posts never ask you about.</p>
+
+    <div class="blog-body">
+
+      <h2>The question I kept getting asked</h2>
+      <p>Every time I described our AI system at MetLife, someone would ask: <em>"Did you RAG it or fine-tune it?"</em> As if it's a binary choice. As if the answer is the same regardless of your data, your latency requirements, your compliance constraints, or how often your knowledge base changes.</p>
+      <p>The honest answer is: <strong>it depends, and here's exactly what it depends on.</strong> After building both approaches in a regulated Fortune 50 environment, I have a framework that I use every time now. Let me walk you through it.</p>
+
+      <h2>What RAG actually is in production</h2>
+      <p>RAG — Retrieval Augmented Generation — means your LLM doesn't try to remember everything. Instead, it retrieves relevant context from an external knowledge base at inference time and uses that to generate its response. In our case, we built a pipeline using <code>LangChain</code> and <code>ChromaDB</code> with a 100K+ document enterprise corpus.</p>
+      <p>The retrieval step matters enormously. We experimented with pure semantic search (dense vector retrieval using embeddings), BM25 keyword search, and hybrid approaches. <strong>Hybrid search — combining semantic and keyword — consistently outperformed either alone</strong>, especially on domain-specific financial terminology that pure embedding models sometimes missed.</p>
+
+      <div class="callout">
+        <p>Our RAGAS evaluation showed 91% faithfulness score with hybrid retrieval. Pure semantic search alone gave us 84%. Seven percentage points of faithfulness matters a lot when you're grounding financial AI responses.</p>
+      </div>
+
+      <h2>What fine-tuning actually costs you</h2>
+      <p>Fine-tuning gets pitched as the "more powerful" option. In some ways it is. But here's what the blog posts don't tell you about fine-tuning in an enterprise context.</p>
+      <p>First, <strong>your training data becomes a liability</strong>. Every document you include in fine-tuning has to go through legal, compliance, and data governance review. At MetLife, that process takes weeks. With RAG, documents are just indexed — they never touch the model weights. The compliance team can review and update the knowledge base independently.</p>
+      <p>Second, <strong>fine-tuned models go stale</strong>. Financial products change. Regulations update. Policies shift. A fine-tuned model from six months ago may confidently give you outdated information. A RAG system with a live-updated vector store always has current context.</p>
+      <p>Third, fine-tuning requires a labeled dataset. We're talking thousands of high-quality question-answer pairs. In a specialized domain, that's expensive human annotation time.</p>
+
+      <table class="comparison-table">
+        <tr><th>Dimension</th><th>RAG</th><th>Fine-Tuning</th></tr>
+        <tr><td>Knowledge freshness</td><td>Real-time via vector store</td><td>Frozen at training time</td></tr>
+        <tr><td>Compliance overhead</td><td>Low — no model retraining</td><td>High — data governance required</td></tr>
+        <tr><td>Hallucination risk</td><td>Lower with good retrieval</td><td>Higher for out-of-distribution queries</td></tr>
+        <tr><td>Cost to update</td><td>Re-index documents only</td><td>Full retraining cycle</td></tr>
+        <tr><td>Best for</td><td>Dynamic knowledge bases</td><td>Specific behavior/style changes</td></tr>
+      </table>
+
+      <h2>When fine-tuning wins</h2>
+      <p>Fine-tuning genuinely wins when you need the model to <strong>behave differently</strong>, not just know more. If you want a model to respond in a specific structured format every time, follow a particular reasoning chain, or adopt a domain-specific tone consistently — that's fine-tuning territory. RAG can't teach the model how to think. It can only give it more to think about.</p>
+      <p>We used <code>LoRA</code> fine-tuning for instruction following — teaching the model to always output structured JSON with specific fields for downstream processing. That's not knowledge. That's behavior. RAG couldn't solve it.</p>
+
+      <h2>The hybrid approach we actually use</h2>
+      <p>The real answer at MetLife is: <strong>both, in the right places</strong>. LoRA fine-tuning for behavior and output format. RAG for dynamic knowledge grounding. AI Guardrails via Amazon Bedrock for safety and compliance. LangSmith for observability across the entire chain.</p>
+      <p>The combination gave us a system that responds consistently, cites current sources, and doesn't make things up. In a financial environment, that last part is non-negotiable.</p>
+
+      <h2>My decision framework</h2>
+      <p>Start with these questions: Does your knowledge change frequently? Use RAG. Do you have compliance constraints on training data? Use RAG. Do you need the model to follow a rigid output format? Fine-tune with LoRA. Do you need the model to adopt domain-specific reasoning patterns? Fine-tune. Everything else? RAG first, always. It's faster to build, cheaper to maintain, and easier to explain to a compliance team.</p>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('.theme-icon');
+      icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      document.querySelector('.theme-icon').textContent = '☀️';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPU Memory Optimization — Sravan Pusuluri</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .blog-page { max-width: 720px; margin: 0 auto; padding: 8rem 5% 4rem; }
+    .blog-back { font-size: 13px; color: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 2rem; }
+    .blog-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .blog-date { font-size: 12px; color: #aaa; }
+    .blog-readtime { font-size: 12px; color: #aaa; }
+    .blog-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: #111; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+    .blog-subtitle { font-size: 1.1rem; color: #666; line-height: 1.7; margin-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 2rem; }
+    .blog-body h2 { font-size: 1.4rem; font-weight: 700; color: #111; margin: 2.5rem 0 1rem; letter-spacing: -0.02em; }
+    .blog-body p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 1.25rem; }
+    .blog-body strong { color: #111; font-weight: 600; }
+    .blog-body code { font-family: monospace; background: #f5f5f7; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #0284c7; }
+    .callout { background: #f0f9ff; border-left: 3px solid #0284c7; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .callout p { margin: 0; color: #0369a1; font-size: 14px; }
+    .metric-row { display: flex; gap: 2rem; margin: 2rem 0; flex-wrap: wrap; }
+    .metric { text-align: center; }
+    .metric-num { font-size: 2rem; font-weight: 700; color: #0284c7; letter-spacing: -0.03em; }
+    .metric-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+    .tag-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-orange { background: #ffedd5; color: #c2410c; }
+    body.dark .blog-title { color: #fff; }
+    body.dark .blog-body h2 { color: #fff; }
+    body.dark .blog-body p { color: #aaa; }
+    body.dark .blog-body strong { color: #fff; }
+    body.dark .callout { background: #1f1f35; border-color: #38bdf8; }
+    body.dark .callout p { color: #38bdf8; }
+    body.dark .blog-subtitle { color: #aaa; border-color: #2a2a45; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Sravan Pusuluri</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="theme-slider" onclick="toggleTheme()" id="themeBtn">
+        <div class="theme-slider-thumb"><span class="theme-icon">🌙</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="blog-page">
+    <a href="../index.html#blog" class="blog-back">← Back to Blog</a>
+
+    <div class="blog-meta">
+      <span class="tag-pill tag-green">GPU</span>
+      <span class="tag-pill tag-orange">Infra</span>
+      <span class="tag-pill tag-blue">CUDA</span>
+      <span class="blog-date">November 2025</span>
+      <span class="blog-readtime">5 min read</span>
+    </div>
+
+    <h1 class="blog-title">Why GPU Memory Optimization Saved Us $620K in Infrastructure Costs</h1>
+    <p class="blog-subtitle">We didn't buy more GPUs. We just stopped wasting the ones we had. Here's the technical breakdown of how 35% memory savings turned into real dollar impact.</p>
+
+    <div class="blog-body">
+
+      <h2>How we discovered the problem</h2>
+      <p>It started with a budget conversation. Our infrastructure team flagged that at current growth rates, we'd need to procure additional A100 clusters within two quarters. The ask was significant — we were talking about hundreds of thousands of dollars in cloud GPU spend.</p>
+      <p>Before signing off on new hardware, I asked a simple question: <em>how efficiently are we using what we have?</em> I opened <code>Nsight Systems</code> and let it profile a 30-minute window of production traffic. What I saw was uncomfortable. <strong>GPU memory utilization was sitting at 61%. We were running a $50,000-per-year piece of hardware at barely above half capacity.</strong></p>
+
+      <div class="callout">
+        <p>Before you buy more GPUs, profile the ones you have. Most LLM inference setups waste 30-40% of available memory through inefficient allocation alone.</p>
+      </div>
+
+      <h2>The three sources of memory waste</h2>
+      <p>The profiler revealed three distinct problems eating our GPU memory.</p>
+      <p><strong>1. Static KV-cache allocation.</strong> Our serving setup was pre-allocating a fixed block of memory for the KV-cache of every request, sized for the maximum possible sequence length. Most requests were far shorter than the maximum. We were reserving memory for sequences that never materialized.</p>
+      <p><strong>2. Memory fragmentation.</strong> As requests completed and new ones arrived, freed memory blocks couldn't always be reused efficiently. Classic fragmentation — lots of free memory in total, but not in contiguous blocks where the allocator needed it.</p>
+      <p><strong>3. Inefficient weight storage.</strong> Our model weights were stored in FP16 — 16-bit floating point. Standard practice, but not optimal for inference on hardware with dedicated INT8 tensor cores.</p>
+
+      <h2>The fix: three layers of optimization</h2>
+      <p>We attacked each problem systematically.</p>
+      <p>For the KV-cache issue, we migrated to <code>vLLM</code>'s PagedAttention. This is the single highest-impact change you can make to an LLM serving stack. PagedAttention allocates KV-cache in fixed-size pages — like virtual memory in an OS — and only allocates pages as sequences actually grow. Memory waste from pre-allocation dropped to near zero.</p>
+      <p>For fragmentation, the PagedAttention migration largely solved this too. Page-based allocation means the allocator always has a pool of uniform-size blocks to work with. No more fragmentation from variable-length sequence allocations.</p>
+      <p>For weight storage, we implemented <strong>INT8 GPTQ quantization</strong>. This required careful calibration — we ran the quantization process on a representative sample of production queries to ensure the quantized weights preserved output quality. Our evaluation suite showed negligible degradation across 10,000 test samples.</p>
+
+      <div class="metric-row">
+        <div class="metric"><div class="metric-num">35%</div><div class="metric-label">Memory footprint reduction</div></div>
+        <div class="metric"><div class="metric-num">2×</div><div class="metric-label">Model concurrency</div></div>
+        <div class="metric"><div class="metric-num">$620K</div><div class="metric-label">Deferred hardware spend</div></div>
+      </div>
+
+      <h2>From memory savings to dollar impact</h2>
+      <p>The 35% memory reduction meant each A100 could now run two instances of our model simultaneously instead of one. Same hardware, double the throughput capacity. The infrastructure team recalculated the procurement timeline — we no longer needed the additional cluster. The $500K in GPU hardware procurement was deferred indefinitely.</p>
+      <p>On top of that, we had deployed Triton Inference Server with dynamic batching enabled. By grouping concurrent requests within a 50ms window, GPU utilization climbed from 61% to 83% under peak load. The combination of memory optimization and batching extracted the equivalent compute value of approximately 3 additional A100s from existing hardware — avoiding an estimated $120K+ in annual cloud GPU spend.</p>
+
+      <h2>The lesson</h2>
+      <p>Infrastructure conversations at large companies often default to "buy more." It's the path of least resistance. But in my experience, the more interesting engineering work — and often the more impactful — is in making existing resources work harder. <strong>Profile first. Buy hardware last.</strong></p>
+      <p>The tools exist: Nsight Systems for profiling, vLLM for efficient serving, TensorRT for hardware-optimized inference, Triton for batching. If you're running LLM inference at scale and haven't run a profiler on your serving stack, do it today. You might be surprised what you find.</p>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('.theme-icon');
+      icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      document.querySelector('.theme-icon').textContent = '☀️';
+    }
+  </script>
+</body>
+</html>

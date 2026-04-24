@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Churn Prediction — Sravan Pusuluri</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .project-page { max-width: 900px; margin: 0 auto; padding: 8rem 5% 4rem; }
+
+    .project-back {
+      font-size: 13px; color: #0284c7; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 2rem;
+    }
+    .project-back:hover { opacity: 0.8; }
+
+    .project-num { font-size: 12px; color: #aaa; font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .project-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #111; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+    .project-subtitle { font-size: 1.05rem; color: #666; line-height: 1.7; margin-bottom: 2rem; }
+
+    .project-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; }
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .meta-label { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta-value { font-size: 13px; color: #111; font-weight: 600; }
+
+    .tag-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-orange { background: #ffedd5; color: #c2410c; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-purple { background: #ede9fe; color: #7c3aed; }
+
+    /* METRICS */
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; }
+    .metric-card { background: #f0f9ff; border: 1px solid #e0f2fe; border-radius: 12px; padding: 1.25rem; text-align: center; }
+    .metric-num { font-size: 1.8rem; font-weight: 700; color: #0284c7; letter-spacing: -0.03em; line-height: 1; }
+    .metric-label { font-size: 11px; color: #666; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* SECTIONS */
+    .section-title { font-size: 1.3rem; font-weight: 700; color: #111; letter-spacing: -0.02em; margin: 2.5rem 0 1rem; border-left: 3px solid #0284c7; padding-left: 0.75rem; }
+    .body-text { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 1.25rem; }
+    .body-text strong { color: #111; font-weight: 600; }
+    code { font-family: monospace; background: #f5f5f7; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #0284c7; }
+
+    /* TECH STACK */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+
+    /* RESULTS IMAGE */
+    .results-img { width: 100%; border-radius: 12px; border: 1px solid #f0f0f0; margin: 1.5rem 0; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+    /* MODEL COMPARISON */
+    .model-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 14px; }
+    .model-table th { background: #f0f9ff; color: #0369a1; padding: 10px 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #e0f2fe; }
+    .model-table td { padding: 10px 16px; border-bottom: 1px solid #f5f5f5; color: #444; }
+    .model-table tr:last-child td { border-bottom: none; }
+    .model-table .winner { font-weight: 700; color: #0284c7; }
+
+    /* FEATURE IMPORTANCE */
+    .feature-list { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+    .feature-item { display: flex; align-items: center; gap: 1rem; }
+    .feature-name { font-size: 13px; color: #111; font-weight: 500; min-width: 180px; }
+    .feature-bar-wrap { flex: 1; background: #f5f5f7; border-radius: 4px; height: 8px; }
+    .feature-bar { height: 8px; border-radius: 4px; background: #0284c7; }
+    .feature-score { font-size: 12px; color: #aaa; min-width: 40px; text-align: right; }
+
+    /* CALLOUT */
+    .callout { background: #f0f9ff; border-left: 3px solid #0284c7; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .callout p { margin: 0; color: #0369a1; font-size: 14px; line-height: 1.6; }
+
+    /* GITHUB BTN */
+    .github-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #111; color: #fff; padding: 12px 24px;
+      border-radius: 25px; text-decoration: none; font-size: 14px;
+      font-weight: 600; margin-top: 2rem; transition: background 0.2s;
+    }
+    .github-btn:hover { background: #0284c7; }
+
+    /* DARK MODE */
+    body.dark .project-title { color: #fff; }
+    body.dark .project-subtitle { color: #aaa; }
+    body.dark .meta-value { color: #e8e8f0; }
+    body.dark .section-title { color: #fff; }
+    body.dark .body-text { color: #aaa; }
+    body.dark .body-text strong { color: #fff; }
+    body.dark .metric-card { background: #252540; border-color: #2a2a45; }
+    body.dark .metric-label { color: #888; }
+    body.dark .model-table th { background: #252540; color: #38bdf8; border-color: #2a2a45; }
+    body.dark .model-table td { color: #aaa; border-color: #2a2a45; }
+    body.dark .feature-name { color: #e8e8f0; }
+    body.dark .feature-bar-wrap { background: #2a2a45; }
+    body.dark .callout { background: #1f1f35; border-color: #38bdf8; }
+    body.dark .callout p { color: #38bdf8; }
+    body.dark .project-meta { border-color: #2a2a45; }
+    body.dark .results-img { border-color: #2a2a45; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Sravan Pusuluri</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="theme-slider" onclick="toggleTheme()" id="themeBtn">
+        <div class="theme-slider-thumb"><span class="theme-icon">🌙</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="project-page">
+    <a href="../index.html#projects" class="project-back">← Back to Projects</a>
+
+    <div class="project-num">PROJECT 04</div>
+    <h1 class="project-title">Customer Churn Prediction</h1>
+    <p class="project-subtitle">An end-to-end machine learning pipeline to identify customers at risk of churning — from raw data exploration to a production-ready XGBoost classifier achieving 98.05% accuracy on a highly imbalanced e-commerce dataset.</p>
+
+    <div class="project-meta">
+      <div class="meta-item">
+        <div class="meta-label">Type</div>
+        <div class="meta-value">Classification / ML Pipeline</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Dataset</div>
+        <div class="meta-value">E-commerce</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Churn Rate</div>
+        <div class="meta-value">16.8% (imbalanced)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Best Model</div>
+        <div class="meta-value">XGBoost · 98.05% accuracy</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+      <span class="tag-pill tag-blue">Python</span>
+      <span class="tag-pill tag-blue">Scikit-learn</span>
+      <span class="tag-pill tag-orange">XGBoost</span>
+      <span class="tag-pill tag-blue">Pandas</span>
+      <span class="tag-pill tag-blue">NumPy</span>
+      <span class="tag-pill tag-green">Matplotlib</span>
+      <span class="tag-pill tag-green">Seaborn</span>
+      <span class="tag-pill tag-purple">EDA</span>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-num">98.05%</div>
+        <div class="metric-label">XGBoost Accuracy</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">98.31%</div>
+        <div class="metric-label">Random Forest</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">16.8%</div>
+        <div class="metric-label">Churn Rate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">0.34</div>
+        <div class="metric-label">Tenure Correlation</div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section-title">Project Overview</div>
+    <p class="body-text">Customer churn is one of the most expensive problems in e-commerce. Acquiring a new customer costs 5–7x more than retaining an existing one. This project builds a complete ML pipeline to predict which customers are likely to churn — enabling proactive intervention before they leave.</p>
+    <p class="body-text">The dataset contains <strong>5,630 e-commerce customers</strong> with 20 features including tenure, satisfaction scores, complaints, cashback amounts, and order behavior. With a <strong>16.8% churn rate</strong>, this is a classic imbalanced classification problem that requires careful handling to avoid models that simply predict "not churned" for everything.</p>
+
+    <div class="callout">
+      <p>The most surprising finding: <strong>Tenure was the single strongest predictor</strong> with a -0.34 correlation to churn. Customers who leave do so early. If a customer survives their first 6 months, retention probability increases dramatically.</p>
+    </div>
+
+    <!-- RESULTS IMAGE -->
+    <div class="section-title">Results & Visualizations</div>
+    <img src="churn_model_pred.png" alt="Churn Model Results" class="results-img" />
+
+    <!-- EDA -->
+    <div class="section-title">Exploratory Data Analysis</div>
+    <p class="body-text">Before writing a single model, I spent time understanding the data. Key findings from EDA:</p>
+    <p class="body-text"><strong>Tenure is the #1 signal.</strong> Churned customers had a median tenure of just 1 month vs 10 months for retained customers. The tenure boxplot tells the whole story — if you can get a customer past their first few months, they're likely to stay.</p>
+    <p class="body-text"><strong>Complaints drive churn.</strong> Customers who filed complaints churned at a significantly higher rate. The complaints vs churn bar chart shows a clear signal — complaint resolution speed matters.</p>
+    <p class="body-text"><strong>Cashback retention.</strong> CashbackAmount showed a -0.15 correlation with churn — customers receiving higher cashback were less likely to leave. A simple but powerful business insight.</p>
+    <p class="body-text"><strong>Satisfaction score paradox.</strong> Interestingly, satisfaction score 1 (lowest) had relatively few churners in absolute numbers, while scores 3 and 4 had the most churn. This reflects the dataset distribution rather than low-satisfaction customers being retained — they'd already left before being surveyed.</p>
+
+    <!-- MODEL COMPARISON -->
+    <div class="section-title">Model Comparison</div>
+    <p class="body-text">I trained and evaluated four classification models using stratified cross-validation to handle the class imbalance:</p>
+
+    <table class="model-table">
+      <tr>
+        <th>Model</th>
+        <th>Accuracy</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Logistic Regression</td>
+        <td>89.17%</td>
+        <td>Good baseline, struggles with non-linear patterns</td>
+      </tr>
+      <tr>
+        <td>Decision Tree</td>
+        <td>96.36%</td>
+        <td>Strong but prone to overfitting without pruning</td>
+      </tr>
+      <tr>
+        <td>Random Forest</td>
+        <td>98.31%</td>
+        <td>Excellent — ensemble reduces variance significantly</td>
+      </tr>
+      <tr>
+        <td class="winner">XGBoost ✓</td>
+        <td class="winner">98.05%</td>
+        <td class="winner">Best overall — faster, more interpretable feature importance</td>
+      </tr>
+    </table>
+
+    <p class="body-text">XGBoost was selected as the final model. While Random Forest edged it slightly on raw accuracy (98.31% vs 98.05%), XGBoost offered <strong>faster inference, built-in regularization, and cleaner feature importance scores</strong> — critical for a production deployment where you need to explain predictions to a business team.</p>
+
+    <!-- FEATURE IMPORTANCE -->
+    <div class="section-title">Top Feature Importances</div>
+    <p class="body-text">Random Forest feature importances revealed the strongest predictors of churn:</p>
+
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-name">Tenure</div>
+        <div class="feature-bar-wrap"><div class="feature-bar" style="width:100%"></div></div>
+        <div class="feature-score">0.22</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">CashbackAmount</div>
+        <div class="feature-bar-wrap"><div class="feature-bar" style="width:55%"></div></div>
+        <div class="feature-score">0.12</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">WarehouseToHome</div>
+        <div class="feature-bar-wrap"><div class="feature-bar" style="width:40%"></div></div>
+        <div class="feature-score">0.09</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">NumberOfAddress</div>
+        <div class="feature-bar-wrap"><div class="feature-bar" style="width:36%"></div></div>
+        <div class="feature-score">0.08</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">DaySinceLastOrder</div>
+        <div class="feature-bar-wrap"><div class="feature-bar" style="width:33%"></div></div>
+        <div class="feature-score">0.07</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">Complain</div>
+        <div class="feature-bar-wrap"><div class="feature-bar" style="width:30%"></div></div>
+        <div class="feature-score">0.065</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">SatisfactionScore</div>
+        <div class="feature-bar-wrap"><div class="feature-bar" style="width:25%"></div></div>
+        <div class="feature-score">0.055</div>
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="section-title">ML Pipeline</div>
+    <p class="body-text">The end-to-end pipeline covers five stages:</p>
+    <p class="body-text"><strong>1. Data Loading & Inspection</strong> — Load the dataset, check dtypes, identify missing values. The dataset had ~5% missing values in columns like <code>Tenure</code>, <code>WarehouseToHome</code>, and <code>DaySinceLastOrder</code>, imputed using median strategy.</p>
+    <p class="body-text"><strong>2. Exploratory Data Analysis</strong> — Distribution plots, correlation heatmap, boxplots grouped by churn label, feature correlation analysis with the target variable.</p>
+    <p class="body-text"><strong>3. Feature Engineering</strong> — Label encoding for categorical features (<code>PreferredLoginDevice</code>, <code>PreferredPaymentMode</code>, <code>Gender</code>), standard scaling for numeric features, and stratified train-test split (80/20) to preserve class distribution.</p>
+    <p class="body-text"><strong>4. Model Training & Evaluation</strong> — Four models trained and evaluated on accuracy, precision, recall, F1-score and confusion matrix. Cross-validation used throughout to prevent data leakage.</p>
+    <p class="body-text"><strong>5. Feature Importance Analysis</strong> — Random Forest and XGBoost both used to extract and visualize top predictive features, providing actionable business insights.</p>
+
+    <!-- KEY INSIGHTS -->
+    <div class="section-title">Business Insights</div>
+    <p class="body-text">Beyond the model accuracy, this project surfaces three actionable insights for a real e-commerce business:</p>
+    <p class="body-text"><strong>Focus retention efforts in the first 30 days.</strong> Tenure is overwhelmingly the strongest predictor. Early engagement programs, onboarding discounts, and first-order follow-ups directly target the highest-risk window.</p>
+    <p class="body-text"><strong>Cashback works.</strong> The negative correlation between cashback and churn isn't surprising — but the magnitude is. Even modest cashback programs appear to meaningfully improve retention, especially for high-value customers.</p>
+    <p class="body-text"><strong>Complaint resolution speed matters more than complaint frequency.</strong> Customers who complain and get resolved aren't necessarily churners. Customers who complain and don't hear back — those are the ones you lose.</p>
+
+    <!-- GITHUB -->
+    <a href="https://github.com/sravanpusuluri02/Customer_Churn_Prediction" target="_blank" class="github-btn">
+      View on GitHub →
+    </a>
+
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('.theme-icon');
+      icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      document.querySelector('.theme-icon').textContent = '☀️';
+    }
+  </script>
+
+</body>
+</html>

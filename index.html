@@ -423,6 +423,24 @@
             </div>
             <div class="project-github">Click to view project →</div>
           </div>
+          <div class="project-card" onclick="window.location.href='projects/sow.html'" style="cursor:pointer;">
+            <div class="project-num">05</div>
+            <div class="project-title">AI Presales SOW Agent</div>
+            <div class="project-desc">Agentic system that generates grounded Statements of Work in seconds. Built with LangGraph, FAISS RAG, and Groq for a real B2B client — zero hallucinated compliance clauses.</div>
+            <div class="project-metrics">
+              <span class="project-metric">4 agent nodes</span>
+              <span class="project-metric">166 RAG chunks</span>
+              <span class="project-metric">&lt;1s latency</span>
+            </div>
+            <div class="project-tech">
+              <span class="tag purple">LangGraph</span>
+              <span class="tag blue">FAISS</span>
+              <span class="tag blue">RAG</span>
+              <span class="tag green">FastAPI</span>
+              <span class="tag purple">Groq</span>
+            </div>
+            <div class="project-github">Click to view project →</div>
+          </div>
         </div>
       </div>
     </section>
@@ -472,6 +490,15 @@
               <span class="tag blue">LangGraph</span>
             </div>
             <div class="blog-card-meta">February 2026 · 7 min read</div>
+          </div>
+          <div class="blog-card" onclick="selectPost(4)">
+            <div class="blog-card-num">05</div>
+            <div class="blog-card-title">Building an AI SOW Agent for a Real Client</div>
+            <div class="blog-card-tags">
+              <span class="tag purple">LangGraph</span>
+              <span class="tag green">RAG</span>
+            </div>
+            <div class="blog-card-meta">May 2026 · 8 min read</div>
           </div>
         </div>
   
@@ -752,7 +779,16 @@
     tags: [['Agents','purple'],['LangGraph','blue'],['ReAct','purple'],['Production','orange']],
     stats: [['500+','Concurrent req'],['<800ms','p95 latency'],['7 min','Read time']],
     link: 'blog/post4.html'
-  }
+  },
+  {
+    badge: 'Client work',
+    title: 'Building an AI SOW Agent for a Real Client — What Actually Worked',
+    date: 'May 2026 · 8 min read',
+    desc: 'When a client asked me to automate their Statement of Work generation, I thought it would be straightforward. It wasn\'t. Here\'s what I learned building an agentic system that had to be right every single time.',
+    tags: [['LangGraph','purple'],['RAG','green'],['Agents','purple'],['Client Work','orange']],
+    stats: [['166','RAG chunks'],['4','Agent nodes'],['8 min','Read time']],
+    link: 'blog/post5.html'
+  },
 ];
 
 function selectPost(idx) {

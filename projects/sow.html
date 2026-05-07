@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Presales SOW Agent — Sravan Pusuluri</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .project-page { max-width: 900px; margin: 0 auto; padding: 8rem 5% 4rem; }
+    .project-back { font-size: 13px; color: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 2rem; }
+    .project-back:hover { opacity: 0.8; }
+    .project-num { font-size: 12px; color: #aaa; font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .project-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #111; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+    .project-subtitle { font-size: 1.05rem; color: #666; line-height: 1.7; margin-bottom: 2rem; }
+    .project-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; }
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .meta-label { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta-value { font-size: 13px; color: #111; font-weight: 600; }
+    .tag-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-purple { background: #ede9fe; color: #7c3aed; }
+    .tag-orange { background: #ffedd5; color: #c2410c; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; }
+    .metric-card { background: #f0f9ff; border: 1px solid #e0f2fe; border-radius: 12px; padding: 1.25rem; text-align: center; }
+    .metric-num { font-size: 1.8rem; font-weight: 700; color: #0284c7; letter-spacing: -0.03em; line-height: 1; }
+    .metric-label { font-size: 11px; color: #666; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .section-title { font-size: 1.3rem; font-weight: 700; color: #111; letter-spacing: -0.02em; margin: 2.5rem 0 1rem; border-left: 3px solid #0284c7; padding-left: 0.75rem; }
+    .body-text { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 1.25rem; }
+    .body-text strong { color: #111; font-weight: 600; }
+    code { font-family: monospace; background: #f5f5f7; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #0284c7; }
+    .callout { background: #f0f9ff; border-left: 3px solid #0284c7; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .callout p { margin: 0; color: #0369a1; font-size: 14px; line-height: 1.6; }
+    .arch-box { background: #f5f5f7; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; font-family: monospace; font-size: 12px; color: #444; line-height: 1.8; overflow-x: auto; }
+    .flow-steps { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0; }
+    .flow-step { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.25rem; border: 1px solid #f0f0f0; border-radius: 12px; }
+    .flow-step-num { font-size: 11px; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 3px 8px; border-radius: 20px; flex-shrink: 0; margin-top: 2px; }
+    .flow-step-content { font-size: 14px; color: #444; line-height: 1.6; }
+    .flow-step-content strong { color: #111; }
+    .github-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #111; color: #fff; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-size: 14px; font-weight: 600; margin-top: 2rem; transition: background 0.2s; }
+    .github-btn:hover { background: #0284c7; }
+    body.dark .project-title { color: #fff; }
+    body.dark .project-subtitle { color: #aaa; }
+    body.dark .meta-value { color: #e8e8f0; }
+    body.dark .section-title { color: #fff; }
+    body.dark .body-text { color: #aaa; }
+    body.dark .body-text strong { color: #fff; }
+    body.dark .metric-card { background: #252540; border-color: #2a2a45; }
+    body.dark .metric-label { color: #888; }
+    body.dark .callout { background: #1f1f35; border-color: #38bdf8; }
+    body.dark .callout p { color: #38bdf8; }
+    body.dark .arch-box { background: #1f1f35; color: #aaa; }
+    body.dark .flow-step { background: #252540; border-color: #2a2a45; }
+    body.dark .flow-step-content { color: #aaa; }
+    body.dark .flow-step-content strong { color: #fff; }
+    body.dark .project-meta { border-color: #2a2a45; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Sravan Pusuluri</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="theme-slider" onclick="toggleTheme()" id="themeBtn">
+        <div class="theme-slider-thumb"><span class="theme-icon">🌙</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="project-page">
+    <a href="../index.html#projects" class="project-back">← Back to Projects</a>
+
+    <div class="project-num">PROJECT 05</div>
+    <h1 class="project-title">AI Presales SOW Agent</h1>
+    <p class="project-subtitle">A production-grade agentic system that generates grounded, client-ready Statements of Work in seconds — built for a real client using LangGraph, FAISS, Groq, and FastAPI. No hallucinated clauses. No missing acceptance criteria. Just structured, traceable SOWs.</p>
+
+    <div class="project-meta">
+      <div class="meta-item">
+        <div class="meta-label">Type</div>
+        <div class="meta-value">Agentic AI · RAG Pipeline</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Client</div>
+        <div class="meta-value">B2B SaaS · Presales Team</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Knowledge Base</div>
+        <div class="meta-value">994 lines · 166 chunks</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">LLM</div>
+        <div class="meta-value">Llama 3.1 8B via Groq</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+      <span class="tag-pill tag-blue">LangGraph</span>
+      <span class="tag-pill tag-blue">FAISS</span>
+      <span class="tag-pill tag-blue">LangChain</span>
+      <span class="tag-pill tag-purple">Groq API</span>
+      <span class="tag-pill tag-purple">Llama 3.1</span>
+      <span class="tag-pill tag-green">FastAPI</span>
+      <span class="tag-pill tag-green">RAG</span>
+      <span class="tag-pill tag-orange">Vue 3</span>
+      <span class="tag-pill tag-orange">Python</span>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-num">4</div>
+        <div class="metric-label">Agent nodes</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">166</div>
+        <div class="metric-label">RAG chunks</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">3x</div>
+        <div class="metric-label">Retrieval queries</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">&lt;1s</div>
+        <div class="metric-label">Embedding latency</div>
+      </div>
+    </div>
+
+    <div class="section-title">The Problem</div>
+    <p class="body-text">Writing a Statement of Work is one of the most time-consuming parts of the presales process. A typical SOW touches compliance requirements, project scope, acceptance criteria, timelines, and budget — all of which vary by client, industry, and regulatory environment. Done manually, it takes hours. Done poorly, it creates legal exposure.</p>
+    <p class="body-text">The client needed a system that could generate a complete, grounded SOW in seconds — given just a client name and some deal context. The hard constraint: <strong>no hallucinated clause numbers, no invented compliance references, no missing sections.</strong> Every output had to be traceable to a real source document.</p>
+
+    <div class="callout">
+      <p>Without RAG, the LLM confidently produced invented HIPAA clause numbers and missing acceptance criteria. With RAG grounded on actual regulatory text, the output became structurally correct and source-traceable on the first attempt.</p>
+    </div>
+
+    <div class="section-title">Architecture</div>
+    <div class="arch-box">
+┌─────────────────────────────────┐
+│       Frontend (Vue 3)          │
+│  Form → POST /generate-sow      │
+└───────────────┬─────────────────┘
+                │ HTTP JSON
+┌───────────────▼─────────────────┐
+│       FastAPI (api/main.py)     │
+│  Validation · CORS · Pydantic   │
+└───────────────┬─────────────────┘
+                │ Python call
+┌───────────────▼─────────────────┐
+│    LangGraph Agent              │
+│  parse → retrieve → generate    │
+│              → validate         │
+└───────────────┬─────────────────┘
+                │ FAISS query
+┌───────────────▼─────────────────┐
+│    Knowledge Base               │
+│  SOW template · HIPAA text      │
+│  AWS migration best practices   │
+│  Embeddings: all-MiniLM-L6-v2   │
+└───────────────┬─────────────────┘
+                │ LLM API call
+┌───────────────▼─────────────────┐
+│    Groq · llama-3.1-8b-instant  │
+└─────────────────────────────────┘
+    </div>
+
+    <div class="section-title">Agent Workflow</div>
+    <p class="body-text">The agent is a <code>LangGraph StateGraph</code> — four nodes, linear chain, shared <code>SOWState</code> TypedDict that each node reads and partially updates.</p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-step-num">01</div>
+        <div class="flow-step-content"><strong>parse_input</strong> — Normalises keys, fills defaults, auto-infers compliance tags from keywords ("health" → HIPAA, "payment" → PCI-DSS). Everything downstream depends on a clean deal dict.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">02</div>
+        <div class="flow-step-content"><strong>retrieve_context</strong> — Fires three FAISS queries targeting SOW structure, compliance requirements, and AWS best practices. Retrieves k=2 chunks each, deduplicates by content fingerprint. Index loads once per process and stays cached.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">03</div>
+        <div class="flow-step-content"><strong>generate_sow</strong> — Builds a structured prompt with deal data + retrieved chunks + explicit section instructions, then calls <code>llama-3.1-8b-instant</code>. Always has complete, grounded input before generating.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">04</div>
+        <div class="flow-step-content"><strong>validate_output</strong> — Checks all five required sections are present, word count is over 300, and client name appears in output. Non-blocking — returns warnings alongside the SOW so users can judge the output themselves.</div>
+      </div>
+    </div>
+
+    <div class="section-title">RAG Implementation</div>
+    <p class="body-text">The knowledge base has three documents: a full SOW template, the actual HIPAA security rule text (45 CFR Parts 160/164), and an AWS migration best-practices guide — <strong>994 lines total, split into 166 chunks</strong> using <code>RecursiveCharacterTextSplitter</code> at 500 characters with 50-character overlap.</p>
+    <p class="body-text">Chunking splits on paragraph breaks before line breaks before spaces, keeping chunks semantically coherent. Embeddings run locally via <strong>all-MiniLM-L6-v2</strong> — no API cost, sub-second latency after warmup. The flat FAISS index handles brute-force O(n) search efficiently at this scale.</p>
+
+    <div class="section-title">Key Design Decisions</div>
+    <p class="body-text"><strong>Why Groq?</strong> Llama 3.1 8B on Groq delivers near-instant inference — critical for a presales tool where the sales team is often on a live client call. Waiting 30 seconds for an LLM response kills the demo.</p>
+    <p class="body-text"><strong>Why FAISS over a vector DB?</strong> At 166 chunks, a managed vector database adds operational overhead with no performance benefit. FAISS runs in-process, persists to disk, and loads in milliseconds. The right tool for the scale.</p>
+    <p class="body-text"><strong>Why LangGraph over a simple chain?</strong> The four-node StateGraph makes each stage independently testable, observable, and replaceable. When the client asked to add a compliance-check node later, it was a single graph modification — not a rewrite.</p>
+
+    <div class="section-title">Tradeoffs & What's Next</div>
+    <p class="body-text">The FAISS index and embedding model are module-level singletons — fine for a single worker but each additional uvicorn worker loads its own ~100MB model copy. A real production deployment would centralise the embedding service. There's currently no auth on the API, no streaming, and no feedback loop for improving retrieval quality over time — all intentional scope cuts for the initial client delivery.</p>
+    <p class="body-text">The natural next step is a document ingestion pipeline handling PDFs, DOCX, and Confluence pages — replacing the three static <code>.txt</code> files with a live knowledge base that updates as the client's templates and compliance requirements evolve.</p>
+
+    <a href="https://github.com/sravanpusuluri02/AI-Presales-Agent" target="_blank" class="github-btn">
+      View on GitHub →
+    </a>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('.theme-icon');
+      icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      document.querySelector('.theme-icon').textContent = '☀️';
+    }
+  </script>
+</body>
+</html>

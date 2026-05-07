@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building an AI SOW Agent for a Real Client — Sravan Pusuluri</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .blog-page { max-width: 720px; margin: 0 auto; padding: 8rem 5% 4rem; }
+    .blog-back { font-size: 13px; color: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 2rem; }
+    .blog-back:hover { opacity: 0.8; }
+    .blog-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .blog-date { font-size: 12px; color: #aaa; }
+    .blog-readtime { font-size: 12px; color: #aaa; }
+    .blog-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: #111; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+    .blog-subtitle { font-size: 1.1rem; color: #666; line-height: 1.7; margin-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 2rem; }
+    .blog-body h2 { font-size: 1.4rem; font-weight: 700; color: #111; margin: 2.5rem 0 1rem; letter-spacing: -0.02em; }
+    .blog-body p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 1.25rem; }
+    .blog-body strong { color: #111; font-weight: 600; }
+    code { font-family: monospace; background: #f5f5f7; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #0284c7; }
+    .callout { background: #f0f9ff; border-left: 3px solid #0284c7; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .callout p { margin: 0; color: #0369a1; font-size: 14px; line-height: 1.6; }
+    .tag-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-purple { background: #ede9fe; color: #7c3aed; }
+    .tag-orange { background: #ffedd5; color: #c2410c; }
+    body.dark .blog-title { color: #fff; }
+    body.dark .blog-body h2 { color: #fff; }
+    body.dark .blog-body p { color: #aaa; }
+    body.dark .blog-body strong { color: #fff; }
+    body.dark .callout { background: #1f1f35; border-color: #38bdf8; }
+    body.dark .callout p { color: #38bdf8; }
+    body.dark .blog-subtitle { color: #aaa; border-color: #2a2a45; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Sravan Pusuluri</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="theme-slider" onclick="toggleTheme()" id="themeBtn">
+        <div class="theme-slider-thumb"><span class="theme-icon">🌙</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="blog-page">
+    <a href="../index.html#blog" class="blog-back">← Back to Blog</a>
+
+    <div class="blog-meta">
+      <span class="tag-pill tag-blue">LangGraph</span>
+      <span class="tag-pill tag-green">RAG</span>
+      <span class="tag-pill tag-purple">Agents</span>
+      <span class="tag-pill tag-orange">Client Work</span>
+      <span class="blog-date">May 2026</span>
+      <span class="blog-readtime">8 min read</span>
+    </div>
+
+    <h1 class="blog-title">Building an AI SOW Agent for a Real Client — What Actually Worked</h1>
+    <p class="blog-subtitle">When a client asked me to automate their Statement of Work generation, I thought it would be a straightforward RAG project. It wasn't. Here's what I learned building an agentic system that had to be right every single time.</p>
+
+    <div class="blog-body">
+
+      <h2>The brief</h2>
+      <p>The client was a B2B SaaS company with a small presales team. Their problem was simple: writing a Statement of Work took hours, happened late in the sales cycle, and was often done under pressure. The output was inconsistent — some SOWs were thorough, others missed acceptance criteria entirely. A few had invented compliance clause numbers that legal had to quietly fix before sending.</p>
+      <p>What they wanted: give the system a client name and some deal context, get back a complete, structured SOW in seconds. The constraint that made it non-trivial: <strong>every compliance reference had to be real.</strong> No hallucinated HIPAA clause numbers. No invented AWS architecture recommendations. Everything traceable to an actual source document.</p>
+      <p>That constraint ruled out a simple "just prompt GPT-4" approach immediately. And it's what made building this genuinely interesting.</p>
+
+      <h2>Why RAG wasn't optional</h2>
+      <p>I ran the experiment before committing to the architecture. A vanilla LLM prompt — give it the deal context, ask for a SOW — produces output that looks impressive on first read. Structured sections, professional language, reasonable timelines. But look closer and you find invented clause numbers, hallucinated AWS service names, and acceptance criteria that don't match the project scope.</p>
+
+      <div class="callout">
+        <p>The LLM doesn't know it's hallucinating. It produces confident, well-formatted nonsense. That's worse than an obviously wrong answer — it's a wrong answer that gets sent to the client.</p>
+      </div>
+
+      <p>The fix was grounding. I built a knowledge base from three real documents: the client's internal SOW template, the actual HIPAA security rule text (45 CFR Parts 160/164), and an AWS migration best-practices guide. <strong>994 lines total, chunked into 166 pieces</strong> using <code>RecursiveCharacterTextSplitter</code> at 500 characters with 50-character overlap.</p>
+      <p>The overlap matters more than people think. Without it, a chunk that ends mid-sentence loses its context. With 50-character overlap, each chunk carries enough trailing context that the embedding captures the right semantic neighbourhood. The difference in retrieval quality is measurable.</p>
+
+      <h2>Why I chose LangGraph over a simple chain</h2>
+      <p>My first instinct was a LangChain sequential chain. Parse input → retrieve context → generate → done. It worked in testing. Then the client asked: "Can we add a compliance check step that flags if a deal is missing required HIPAA clauses before we generate the SOW?"</p>
+      <p>With a sequential chain, that's a rewrite. With <code>LangGraph</code>, it's adding a node and an edge. That conversation — happening two weeks into the project — validated the architecture decision retroactively.</p>
+      <p>The four-node <code>StateGraph</code> I ended up with: <strong>parse_input → retrieve_context → generate_sow → validate_output</strong>. Each node reads from and writes to a shared <code>SOWState</code> TypedDict. Each node is independently testable. Each node can be swapped or extended without touching the others.</p>
+      <p>The validate node is particularly important. It checks that all five required sections are present, word count exceeds 300, and the client name appears in the output. Crucially, it's <strong>non-blocking</strong> — it returns warnings alongside the SOW rather than raising an exception. The presales team sees the validation result and makes the call. That's the right boundary between the system and the human.</p>
+
+      <h2>The retrieval design that actually worked</h2>
+      <p>Single-query RAG was not good enough. A query like "generate SOW for healthcare client" retrieves chunks about SOW structure but misses the HIPAA compliance requirements and the AWS architecture guidance. Three separate queries — one for SOW structure, one for compliance requirements, one for technical best practices — and deduplicate by content fingerprint before injecting into the prompt.</p>
+      <p>The deduplication step sounds minor but it matters. Without it, the same chunk can appear multiple times in the context window, wasting tokens and biasing the generation toward whatever that chunk says. A simple content hash comparison eliminates duplicates in microseconds.</p>
+      <p>Embeddings run locally via <strong>all-MiniLM-L6-v2</strong>. No API cost, sub-second latency after warmup, and the model stays in-process. For a knowledge base this size, a managed vector database would add operational overhead with no performance benefit. FAISS in-process is the right call at 166 chunks.</p>
+
+      <h2>What I'd do differently</h2>
+      <p>The FAISS index and embedding model are module-level singletons. That's fine for a single uvicorn worker, but if you scale to multiple workers each process loads its own ~100MB model copy. A centralised embedding service would be the right fix for production scale.</p>
+      <p>The knowledge base is three static <code>.txt</code> files. That was the right call for the initial delivery — get something working and validated before building a document ingestion pipeline. But it's the first thing to address in the next phase. The client's SOW template changes. New compliance requirements emerge. Static files don't age well.</p>
+      <p>The thing I'm most satisfied with: the validate node. Making it non-blocking was a deliberate design decision that pushed back against the instinct to make the system fully autonomous. A presales SOW going to a client is a legal document. The system should flag problems and present them clearly — not silently fail or autonomously decide the output is good enough. The human stays in the loop on the final call.</p>
+      <p>That's not a limitation. That's responsible AI design.</p>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('.theme-icon');
+      icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      document.querySelector('.theme-icon').textContent = '☀️';
+    }
+  </script>
+</body>
+</html>
